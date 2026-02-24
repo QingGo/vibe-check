@@ -25,6 +25,7 @@ MVP 聚焦三项交付物：
 .venv/bin/python benchmark/generate_cases.py --per-category 1 --dry-run \
   --out-jsonl datasets/case_bank.jsonl --out-parquet datasets/case_bank.parquet
 ```
+这一步只跑本地工具，输出一个结构化的 Case Bank 样例，方便检查 JSONL/Parquet、Schema 校验和后续 orchestrator 读取逻辑是否正常，不依赖任何 LLM 调用。
 
 校验用例：
 ```bash
