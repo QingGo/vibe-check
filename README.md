@@ -65,4 +65,4 @@ LLM 适配通过 `.env` 配置（`benchmark/deepseek_client.py`）：
 - 排行榜导出与更多指标（缺陷逃逸率、Token 成本、PDF/Excel）
 
 ## 设计文档
-详细技术方案见 `docs/tech_design_zh.md`。
+详细技术方案见 [技术方案](docs/tech_design_zh.md)。
