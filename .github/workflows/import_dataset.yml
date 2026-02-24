@@ -1,0 +1,32 @@
+name: import-dataset
+on:
+  workflow_dispatch: {}
+  repository_dispatch:
+    types: [hf_dataset_update]
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+      - name: setup python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: import from hf
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          HF_REPO: ${{ secrets.HF_REPO }}
+          HF_FILE: ${{ secrets.HF_FILE }}
+        run: |
+          python -m pip install --upgrade huggingface_hub
+          python datasets/import_from_hf.py --repo "$HF_REPO" --token "$HF_TOKEN" --file "${HF_FILE:-export.parquet}" --out datasets/incoming
+      - name: create pr
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: "chore(dataset): import hf export"
+          title: "chore(dataset): import hf export"
+          body: "Automated import from Hugging Face dataset export."
+          branch: "hf-import"
+          delete-branch: true

@@ -1,0 +1,24 @@
+# VC-FCST runner artifacts
+runs/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+dist/
+build/
+*.egg-info/
+
+# OS
+.DS_Store
+.env
+
+.pytest_cache
+repo-all.txt
+.venv/

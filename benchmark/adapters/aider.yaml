@@ -1,0 +1,34 @@
+agent_name: "aider"
+agent_version: "latest"
+call_mode: "cli"
+call_config:
+  cmd: "aider"
+  timeout: 600
+  max_retries: 2
+
+input_prompt_template: |
+  You are a code agent. Complete the task.
+  [Requirement]
+  {{ case.requirement }}
+  [Initial Code]
+  {{ case.initial_code | to_json }}
+  [Acceptance Tests]
+  {{ case.acceptance_criteria.test_code | to_json }}
+  [Constraints]
+  - Only modify necessary files
+  - All code must run in the provided base image
+
+output_parse_template: |
+  Parse the agent output into JSON.
+  [Agent Output]
+  {{ agent_raw_output }}
+  [Final Code]
+  {{ final_code }}
+  Output JSON:
+  {
+    "task_completed": bool,
+    "code_change_summary": "str",
+    "changed_files": ["..."],
+    "failure_reason": "str",
+    "has_expected_defect": bool
+  }

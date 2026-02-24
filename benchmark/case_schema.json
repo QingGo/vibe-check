@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "VC-FCST Case Schema v0.1",
+  "type": "object",
+  "required": [
+    "case_id",
+    "vcfcst_category",
+    "difficulty",
+    "case_type",
+    "requirement",
+    "initial_code",
+    "acceptance_criteria",
+    "expected_defect",
+    "env_config"
+  ],
+  "properties": {
+    "case_id": {"type": "string"},
+    "vcfcst_category": {
+      "type": "object",
+      "required": ["level1", "level2", "level3_id", "level3_name", "defect_desc"],
+      "properties": {
+        "level1": {"type": "string"},
+        "level2": {"type": "string"},
+        "level3_id": {"type": "string"},
+        "level3_name": {"type": "string"},
+        "defect_desc": {"type": "string"}
+      }
+    },
+    "difficulty": {"type": "string", "enum": ["Easy", "Medium", "Hard"]},
+    "case_type": {"type": "string", "enum": ["implement", "modify"]},
+    "requirement": {"type": "string"},
+    "initial_code": {
+      "type": "object",
+      "additionalProperties": {"type": "string"}
+    },
+    "acceptance_criteria": {
+      "type": "object",
+      "required": ["test_code", "static_check_rules", "pass_condition"],
+      "properties": {
+        "test_code": {
+          "type": "object",
+          "additionalProperties": {"type": "string"}
+        },
+        "static_check_rules": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "pass_condition": {"type": "string"}
+      }
+    },
+    "expected_defect": {"type": "string"},
+    "env_config": {
+      "type": "object",
+      "required": ["base_image", "dependencies", "expose_port", "network_disabled"],
+      "properties": {
+        "base_image": {"type": "string"},
+        "dependencies": {"type": "array", "items": {"type": "string"}},
+        "expose_port": {"type": "array", "items": {"type": "integer"}},
+        "network_disabled": {"type": "boolean"}
+      }
+    }
+  }
+}

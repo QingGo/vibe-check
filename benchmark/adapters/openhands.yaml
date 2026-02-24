@@ -1,0 +1,36 @@
+agent_name: "openhands"
+agent_version: "0.15.0"
+call_mode: "api"
+call_config:
+  api_base: "https://api.openhands.ai/v1"
+  api_key_env: "OPENHANDS_API_KEY"
+  timeout: 600
+  max_retries: 2
+
+input_prompt_template: |
+  你需要完成以下开发任务，严格按照用户要求执行：
+  【任务需求】
+  {{ case.requirement }}
+  【初始代码仓库结构】
+  {{ case.initial_code | to_json }}
+  【验收标准】
+  你的代码必须通过以下测试用例：
+  {{ case.acceptance_criteria.test_code | to_json }}
+  【执行要求】
+  1. 仅修改需要改动的文件
+  2. 不要添加任何验收标准外的额外功能
+
+output_parse_template: |
+  请把以下 Code Agent 的执行结果解析为标准化 JSON：
+  【Agent执行日志】
+  {{ agent_raw_output }}
+  【最终代码】
+  {{ final_code }}
+  输出：
+  {
+    "task_completed": bool,
+    "code_change_summary": "str",
+    "changed_files": ["..."],
+    "failure_reason": "str",
+    "has_expected_defect": bool
+  }

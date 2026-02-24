@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "VC-FCST Benchmark Result Schema v0.1",
+  "type": "object",
+  "required": [
+    "case_id",
+    "agent_name",
+    "category_id",
+    "passed",
+    "started_at",
+    "ended_at",
+    "duration_sec"
+  ],
+  "properties": {
+    "case_id": {"type": "string"},
+    "agent_name": {"type": "string"},
+    "agent_version": {"type": "string"},
+    "category_id": {"type": "string"},
+    "passed": {"type": "boolean"},
+    "has_expected_defect": {"type": ["boolean", "null"]},
+    "started_at": {"type": "string"},
+    "ended_at": {"type": "string"},
+    "duration_sec": {"type": "number"},
+    "difficulty": {"type": "string"},
+    "case_type": {"type": "string"},
+    "metrics": {
+      "type": "object",
+      "properties": {
+        "pytest_exit_code": {"type": ["integer", "null"]},
+        "pytest_failed": {"type": ["integer", "null"]},
+        "semgrep_exit_code": {"type": ["integer", "null"]},
+        "semgrep_findings": {"type": ["integer", "null"]}
+      }
+    },
+    "artifacts": {
+      "type": "object",
+      "properties": {
+        "run_dir": {"type": "string"},
+        "workspace_dir": {"type": "string"},
+        "agent_stdout": {"type": "string"},
+        "agent_stderr": {"type": "string"},
+        "tests_stdout": {"type": "string"},
+        "tests_stderr": {"type": "string"}
+      }
+    }
+  }
+}

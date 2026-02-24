@@ -1,0 +1,33 @@
+agent_name: "gemini-cli"
+agent_version: "latest"
+call_mode: "cli"
+call_config:
+  cmd: "gemini"
+  timeout: 600
+  max_retries: 2
+
+input_llm_instruction: |
+  You are adapting a benchmark task into the final Gemini CLI input.
+  Output only the final prompt for the agent, no extra text.
+
+input_prompt_template: |
+  Task:
+  {{ case.requirement }}
+  Repository Snapshot:
+  {{ case.initial_code | to_json }}
+  Tests:
+  {{ case.acceptance_criteria.test_code | to_json }}
+  Constraints:
+  - Only change required files
+  - Keep behavior aligned with acceptance tests
+
+output_parse_template: |
+  Convert agent output to JSON:
+  {{ agent_raw_output }}
+  {
+    "task_completed": bool,
+    "code_change_summary": "str",
+    "changed_files": ["..."],
+    "failure_reason": "str",
+    "has_expected_defect": bool
+  }

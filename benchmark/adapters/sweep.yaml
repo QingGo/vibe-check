@@ -1,0 +1,30 @@
+agent_name: "sweep"
+agent_version: "latest"
+call_mode: "api"
+call_config:
+  api_base: "https://api.sweep.dev"
+  api_key_env: "SWEEP_API_KEY"
+  timeout: 600
+  max_retries: 2
+
+input_prompt_template: |
+  Task:
+  {{ case.requirement }}
+  Repository Snapshot:
+  {{ case.initial_code | to_json }}
+  Tests:
+  {{ case.acceptance_criteria.test_code | to_json }}
+  Constraints:
+  - Only change required files
+  - Keep behavior aligned with acceptance tests
+
+output_parse_template: |
+  Convert agent output to JSON:
+  {{ agent_raw_output }}
+  {
+    "task_completed": bool,
+    "code_change_summary": "str",
+    "changed_files": ["..."],
+    "failure_reason": "str",
+    "has_expected_defect": bool
+  }
